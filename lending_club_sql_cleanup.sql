@@ -30,6 +30,9 @@ update loan
 set last_credit_pull_dt = to_date(last_credit_pull_d, 'MON'||'-'||'YYYY');
 
 UPDATE loan 
-SET next_pymnt_dt = CASE WHEN to_char(next_pymnt_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD') END,
-	last_credit_pull_dt = CASE WHEN to_char(last_credit_pull_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD') end
-;
+SET next_pymnt_dt = CASE WHEN to_char(next_pymnt_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD') else next_pymnt_dt END,
+	last_credit_pull_dt = CASE WHEN to_char(last_credit_pull_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD')  else last_credit_pull_dt end,
+	last_pymnt_dt = CASE WHEN to_char(last_pymnt_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD') else last_pymnt_dt end
+
+
+
