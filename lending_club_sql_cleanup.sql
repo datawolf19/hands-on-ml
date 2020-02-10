@@ -36,6 +36,20 @@ UPDATE loan
 SET next_pymnt_dt = CASE WHEN to_char(next_pymnt_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD') else next_pymnt_dt END,
 	last_credit_pull_dt = CASE WHEN to_char(last_credit_pull_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD')  else last_credit_pull_dt end,
 	last_pymnt_dt = CASE WHEN to_char(last_pymnt_dt, 'YYYY-MM-DD')  = '0001-01-01' THEN TO_DATE('1900-01-01', 'YYYY-MM-DD') else last_pymnt_dt end
+;
 
+-- How many loans > annual income
 
+alter table loan 
+add column loan_gt_income boolean;
 
+update loan 
+set loan_gt_income = case when loan_amt > annual_inc then true else false end 
+
+-- Loan to income ratio
+alter table loan 
+add column loan_to_income_ratio decimal(22,7);
+
+update loan 
+set loan_to_income_ratio = loan_amt/nullif(cast(annual_inc AS decimal(22,7)),0);
+ 
