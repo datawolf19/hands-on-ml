@@ -1,5 +1,8 @@
 -- some transforms being done on the loan dataset
 alter table loan 
+rename column loan_amnt to loan_amt; 
+
+alter table loan 
 rename column funded_amnt to funded_amt;
 
 alter table loan 
